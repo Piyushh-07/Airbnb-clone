@@ -51,6 +51,13 @@ app.post("/listings", async(req, res)=>{
     res.redirect("/listings");
 })
 
+//edit route
+    app.get("/listings/:id/edit",async(req,res)=>{
+    let{id} = req.params
+    const listing = await Listing.findById(id)
+    res.render("listings/edit.ejs",{listing})
+})
+
 // app.get("/testlisting",async (req,res)=>{
 //     let sampleListing = new Listing({
 //         title:"My beautiful villa",
