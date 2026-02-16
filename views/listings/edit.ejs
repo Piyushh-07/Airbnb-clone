@@ -6,13 +6,12 @@
     <title>Wanderlust</title>
   </head>
   <body>
-    <form method="POST" action="/listings">
+    <h3>Edit Your Listing</h3>
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
       <input name="listing[title]" value="<%= listing.title %>" type="text" />
       <br /><br />
       <textarea
-        name="listing[description]"
-        value="<%=listing.description %>"
-      ></textarea>
+        name="listing[description]" value="<%=listing.description %>"></textarea>
       <br /><br />
       <input
         name="listing[image]"
