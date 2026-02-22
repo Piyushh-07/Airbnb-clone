@@ -74,10 +74,10 @@ app.post("/listings", async(req, res)=>{
 
 
 //update route
-app.put("/listing/:id",async(req,res)=>{
+app.put("/listings/:id",async(req,res)=>{
     let {id} = req.params;
     const listing = await Listing.findByIdAndUpdate(id,{...req.body.listing} )
-    res.redirect(`/listings/`+id)
+    res.redirect(`/listings/${listing._id}`)
 })
 
 // app.get("/testlisting",async (req,res)=>{
