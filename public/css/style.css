@@ -4,3 +4,78 @@ body{
     margin: 0;
     padding: 20px;
 }
+
+/* Style for the footer */
+footer {
+  background-color: rgb(237, 235, 235);
+  padding: 10px 0;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.f-info-socials {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+.f-info-socials a {
+  color: #333;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+
+.f-info-socials a:hover {
+  color: #0077b5;
+}
+
+.f-info-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+.f-info-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.f-info-links a:hover {
+  color: #0077b5;
+}
+
+.f-info-copy {
+  margin-top: 5px;
+  color: #555;
+  font-size: 12px;
+}
+
+/*Cards*/
+.card {
+  background-color: #fff;
+  border:none !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+  max-width: 400px;
+} 
+.card-img-top{
+  border-radius: 1rem !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+.card-text {
+  font-size: 16px;
+  color: #070707;
+}
+.nav-item a{
+  color: #070707 !important;
+}
+.container-fluid{
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
