@@ -1,29 +1,30 @@
 <% layout("layouts/boilerplate") %>
 <body>
   <h3>All Listings</h3>
-  
-  <!-- <form method="GET" action="/listings/new">
-    <button>Create New</button>
-  </form> -->
-  <div class="row row-cols-1 row-cols-md-3 g-4">
- <% for (let listing of listings) { %>
-  <div class="card col" style="width: 18rem;">
-  <img src="<%= listing.image %>" class="card-img-top" alt="listing_image" style="width: 18rem; height: 18rem; object-fit: cover;">
-  <div class="card-body">
-    <p class="card-text">
-      <b><%= listing.title %><br></b>
-      &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
-    </p>
-  </div>
-</div>
-<% } %>
-  </div>
 
- 
-
-  <ul>
+  <div class="row row-cols-1 row-cols-md-4 g-4">
     <% for (let listing of listings) { %>
-        <li><a href="/listings/<%=listing._id %>"><%= listing.title %></a></li>
+      <div class="col">
+        <a
+          href="/listings/<%= listing._id %>"
+          style="text-decoration: none; color: inherit;"
+        >
+          <div class="card" style="width: 18rem;">
+            <img
+              src="<%= listing.image %>"
+              class="card-img-top"
+              alt="<%= listing.title %>"
+              style="height: 18rem; object-fit: cover;"
+            />
+            <div class="card-body">
+              <p class="card-text">
+                <b><%= listing.title %></b><br />
+                &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
     <% } %>
-  </ul>
+  </div>
 </body>
