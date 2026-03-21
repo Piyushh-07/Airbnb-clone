@@ -88,6 +88,17 @@ app.delete("/listings/:id",async(req,res)=>{
     res.redirect("/listings")
 })
 
+const adminpage =(req,res,next)=>{
+    if(req.query.token === "12345"){
+        next();
+    }else{
+        res.send("access denied")
+    }
+}
+app.get("/secret",adminpage,(req,res)=>{
+    res.send("admn page will be here")
+})
+
 // app.get("/testlisting",async (req,res)=>{
 //     let sampleListing = new Listing({
 //         title:"My beautiful villa",
