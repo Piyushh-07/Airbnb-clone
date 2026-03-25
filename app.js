@@ -92,12 +92,29 @@ const adminpage =(req,res,next)=>{
     if(req.query.token === "12345"){
         next();
     }else{
-        res.send("access denied")
+        throw new Error("access denied");
     }
 }
 app.get("/secret",adminpage,(req,res)=>{
-    res.send("admn page will be here")
+    res.send("admin page will be here")
 })
+
+
+
+
+app.get("/err", (req, res) => {
+    throw new Error("Test error");
+});
+
+app.use((err, req, res, next) => {
+    console.log("-----ERROR-----");
+    next(err);
+});
+
+// app.use((req, res) => {
+//     res.status(404).send("Page not found");
+// });
+
 
 // app.get("/testlisting",async (req,res)=>{
 //     let sampleListing = new Listing({
