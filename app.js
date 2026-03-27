@@ -57,12 +57,22 @@ app.get("/listings/:id",async(req,res)=>{
 
 
 //create route
-app.post("/listings", async(req, res)=>{
-    //let {title, description,image,price,country,location} =res.body;
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
-})
+app.post("/listings", async (req, res) => {
+    try {
+        let data = req.body.listing;
+
+        // ✅ FIX PRICE
+        data.price = Number(data.price) || 0;
+
+        const newListing = new Listing(data);
+        await newListing.save();
+
+        res.redirect("/listings");
+    } catch (err) {
+        console.log(err); // 👈 see error in terminal
+        res.send("Error occurred");
+    }
+});
 
 
 //edit route
@@ -74,11 +84,15 @@ app.post("/listings", async(req, res)=>{
 
 
 //update route
-app.put("/listings/:id",async(req,res)=>{
-    let {id} = req.params;
-    const listing = await Listing.findByIdAndUpdate(id,{...req.body.listing} )
-    res.redirect(`/listings/${listing._id}`)
-})
+app.put("/listings/:id", async (req, res) => {
+    let { id } = req.params;
+    let data = req.body.listing;
+
+    data.price = Number(data.price) || 0;
+
+    const listing = await Listing.findByIdAndUpdate(id, data, { new: true });
+    res.redirect(`/listings/${listing._id}`);
+});
 
 //delete route
 app.delete("/listings/:id",async(req,res)=>{
