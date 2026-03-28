@@ -5,6 +5,8 @@ const Listing = require("./model/listings.js")
 const path=require("path")
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
+const wrapAsync = require("./utils/wrapAsync.js")
+const ExpressError = require("./utils/ExpressError.js")
 
 
 
@@ -57,34 +59,28 @@ app.get("/listings/:id",async(req,res)=>{
 
 
 //create route
-app.post("/listings", async (req, res) => {
-    try {
+app.post("/listings", wrapAsync(async (req, res) => {
+   
         let data = req.body.listing;
-
-        // ✅ FIX PRICE
         data.price = Number(data.price) || 0;
-
         const newListing = new Listing(data);
         await newListing.save();
-
         res.redirect("/listings");
-    } catch (err) {
-        console.log(err); // 👈 see error in terminal
-        res.send("Error occurred");
-    }
-});
+    })
+);
 
 
 //edit route
-    app.get("/listings/:id/edit",async(req,res)=>{
+    app.get("/listings/:id/edit",wrapAsync(async(req,res)=>{
     let{id} = req.params
     const listing = await Listing.findById(id)
     res.render("listings/edit.ejs",{listing})
 })
+);
 
 
 //update route
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", wrapAsync (async(req, res) => {
     let { id } = req.params;
     let data = req.body.listing;
 
@@ -92,23 +88,24 @@ app.put("/listings/:id", async (req, res) => {
 
     const listing = await Listing.findByIdAndUpdate(id, data, { new: true });
     res.redirect(`/listings/${listing._id}`);
-});
+})
+);
 
 //delete route
-app.delete("/listings/:id",async(req,res)=>{
+app.delete("/listings/:id",wrapAsync(async(req,res)=>{
     let {id} = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
     res.redirect("/listings")
-})
+}))
 
-const adminpage =(req,res,next)=>{
+const adminpage =wrapAsync((req,res,next)=>{
     if(req.query.token === "12345"){
         next();
     }else{
-        throw new Error("access denied");
+        throw new ExpressError("access denied", 403);
     }
-}
+})
 app.get("/secret",adminpage,(req,res)=>{
     res.send("admin page will be here")
 })
@@ -143,6 +140,15 @@ app.use((err, req, res, next) => {
 //     console.log("sample was saved");
 //     res.send("sucessfull testing");
 // });
+
+app.all(/.*/, (req, res, next) => {
+    next(new ExpressError("Page not found", 404));
+});
+
+app.use((err, req, res, next) => {
+    let { statusCode,message } = err;
+    res.status(statusCode).send(message);
+});
 
 app.listen(8080,()=>{
     console.log("server is listening to port 8080")
