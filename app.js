@@ -7,6 +7,7 @@ const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
 const wrapAsync = require("./utils/wrapAsync.js")
 const ExpressError = require("./utils/ExpressError.js")
+const Review = require("./model/review.js")
 
 
 
@@ -110,6 +111,17 @@ app.get("/secret",adminpage,(req,res)=>{
     res.send("admin page will be here")
 })
 
+//Reviews
+//Post Route
+app.post("/listings/:id/reviews", wrapAsync(async (req, res) => {
+    const listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
+    await listing.save();
+    await newReview.save();
+    res.redirect(`/listings/${listing._id}`);
+})
+);
 
 
 
