@@ -4,23 +4,23 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
 
-      
-
       <div class="card shadow-sm">
-        <h3><%= listing.title %></h3>
+        <h3 class="card-header"><%= listing.title %></h3>
         <img
           src="<%= listing.image %>"
           class="card-img-top show-img"
-          alt="listing_image"
+          alt="Image of <%= listing.title %>"
           style="height: 300px; object-fit: cover;"
         />
+
         <div class="card-body">
           <p class="card-text mb-2">
             <%= listing.description %><br />
-            &#8377; <%= listing.price.toLocaleString("en-IN") %><br />
-            <%= listing.location %>, <%= listing.country %>
+            <strong>&#8377; <%= listing.price.toLocaleString("en-IN") %></strong><br />
+            <small class="text-muted"><%= listing.location %>, <%= listing.country %></small>
           </p>
-          <div class="d-flex gap-2">
+
+          <div class="d-flex gap-2 mb-3">
             <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">
               Edit Listing
             </a>
@@ -28,36 +28,50 @@
               <button class="btn btn-danger">Delete Listing</button>
             </form>
           </div>
+
           <hr>
-          <div class="mb">
-            <h4>leave a review</h4>
-            <form action="/listings/<%=listing._id %>/reviews" method="POST" 
+
+          <div class="mb-3">
+            <h4>Leave a Review</h4>
+            <form 
+              action="/listings/<%= listing._id %>/reviews" 
+              method="POST" 
               novalidate 
-              class="needs-validation">
-              <div>
-                <label for="review" class="form-label">Review</label>
+              class="needs-validation"
+            >
+              <div class="mb-3">
+                <label for="rating" class="form-label">Rating (1–5)</label>
                 <input 
-                type="range" 
-                min="1" 
-                max="5" 
-                id="rating" 
-                name="review[rating]" 
-                class="form-range">
+                  type="range" 
+                  min="1" 
+                  max="5" 
+                  id="rating" 
+                  name="review[rating]" 
+                  class="form-range"
+                  aria-label="Rating between 1 and 5"
+                  required
+                >
               </div>
-              <div>
+
+              <div class="mb-3">
                 <label for="comment" class="form-label">Comment</label>
                 <textarea 
-                name="review[comment]" 
-                id="comment" 
-                cols="50" 
-                rows="5" 
-                class="form-control" 
-                required></textarea>
-              </div class>
+                  name="review[comment]" 
+                  id="comment" 
+                  cols="50" 
+                  rows="5" 
+                  class="form-control" 
+                  placeholder="Write your review here..."
+                  required
+                ></textarea>
+              </div>
+
               <button class="btn btn-primary mt-2">Submit Review</button>
             </form>
           </div>
         </div>
+      </div>
+
     </div>
   </div>
 </div>
