@@ -40,18 +40,21 @@
               class="needs-validation"
             >
               <div class="mb-3">
-                <label for="rating" class="form-label">Rating (1–5)</label>
-                <input 
-                  type="range" 
-                  min="1" 
-                  max="5" 
-                  id="rating" 
-                  name="review[rating]" 
-                  class="form-range"
-                  aria-label="Rating between 1 and 5"
-                  required
-                >
-              </div>
+           <label for="rating" class="form-label">
+            Rating: <span id="ratingValue">3</span>
+            </label>
+           <input 
+            type="range" 
+            min="1" 
+            max="5" 
+            value="3"
+            id="rating" 
+            name="review[rating]" 
+            class="form-range"
+            required
+            oninput="document.getElementById('ratingValue').innerText = this.value"
+  >
+</div>
 
               <div class="mb-3">
                 <label for="comment" class="form-label">Comment</label>
