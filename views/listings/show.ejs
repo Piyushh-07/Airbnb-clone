@@ -73,6 +73,17 @@
               </div>
 
               <button class="btn btn-primary mt-2">Submit Review</button>
+              </form> 
+              <hr/>
+              <p><strong>All Reviews</strong></p>
+                <div class="reviews-grid">
+                <% for(review of listing.reviews) {%>
+                      <div class="review-card">
+                          <p class="review-comment"><%= review.comment %></p>
+                          <p class="review-rating"><strong>Rating: </strong><%= review.rating %></p>
+                        </div>                   
+                <% } %>
+              </div>
               </div>
           </div>
         </div>
