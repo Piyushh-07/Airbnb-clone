@@ -51,11 +51,12 @@ app.get("/listings/new",(req,res)=>{
 
 
 //show route
-app.get("/listings/:id",async(req,res)=>{
-    let{id} = req.params
-    const listing = await Listing.findById(id).populate("reviews");
-    res.render("listings/show.ejs", {listing});
-})
+app.get("/listings/:id", async (req, res) => {
+  let { id } = req.params;
+  const listing = await Listing.findById(id).populate("reviews"); // if you want reviews populated
+  res.render("listings/show.ejs", { listing });
+});
+
 
 
 
@@ -158,7 +159,7 @@ app.all(/.*/, (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    let { statusCode,message } = err;
+    let { statusCode = 500, message = "Something went wrong" } = err;
     res.status(statusCode).send(message);
 });
 
