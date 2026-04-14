@@ -53,7 +53,7 @@
             class="form-range"
             required
             oninput="document.getElementById('ratingValue').innerText = this.value"
-  >
+            >
 </div>
 
               <div class="mb-3">
@@ -67,6 +67,9 @@
                   placeholder="Write your review here..."
                   required
                 ></textarea>
+                <div class="invalid-feedback">
+                  Please enter a comment for review.
+                </div>
               </div>
 
               <button class="btn btn-primary mt-2">Submit Review</button>

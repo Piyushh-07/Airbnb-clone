@@ -7,6 +7,7 @@ const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
 const wrapAsync = require("./utils/wrapAsync.js")
 const ExpressError = require("./utils/ExpressError.js")
+const { listingSchema } = require("./schema.js")
 const Review = require("./model/review.js")
 
 
@@ -36,6 +37,26 @@ app.get("/",(req,res)=>{
     res.send("hii i am root")
 })
 
+const validateListing = (req, res, next) => {
+    const { error } = listingSchema.validate(req.body);
+    if (error) {
+        throw new ExpressError("Invalid listing data", 400);
+    }else {
+    next();
+    }
+};
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        throw new ExpressError("Invalid review data", 400);
+    } else {
+        next();
+    }
+};
+
+
+
 //index Route
 app.get("/listings", async (req, res) => {
   const allListings = await Listing.find({});
@@ -61,11 +82,10 @@ app.get("/listings/:id", async (req, res) => {
 
 
 //create route
-app.post("/listings", wrapAsync(async (req, res) => {
-   
-        let data = req.body.listing;
-        data.price = Number(data.price) || 0;
-        const newListing = new Listing(data);
+app.post("/listings", 
+    validateListing, 
+    wrapAsync(async (req, res, next) => {
+        const newListing = new Listing(req.body.listing);
         await newListing.save();
         res.redirect("/listings");
     })
@@ -114,13 +134,21 @@ app.get("/secret",adminpage,(req,res)=>{
 
 //Reviews
 //Post Route
-app.post("/listings/:id/reviews", wrapAsync(async (req, res) => {
-    const listing = await Listing.findById(req.params.id);
+app.post("/listings/:id/reviews",validateReview, wrapAsync(async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
+
     listing.reviews.push(newReview);
+
     await listing.save();
     await newReview.save();
+
+    console.log("new review was added");
+    res.send("review added successfully");
+
     res.redirect(`/listings/${listing._id}`);
+
+    
 })
 );
 
