@@ -12,6 +12,7 @@ const Review = require("./model/review.js")
 const { reviewSchema } = require("./schema.js")
 
 const listingsRoutes = require("./routes/listings.js")
+const reviewsRoutes = require("./routes/review.js")
 
 
 
@@ -41,42 +42,9 @@ app.get("/",(req,res)=>{
 })
 
 
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        throw new ExpressError("Invalid review data", 400);
-    } else {
-        next();
-    }
-};
 
 app.use("/listings", listingsRoutes)
-
-//Reviews
-//Post Route
-app.post("/listings/:id/reviews",validateReview, wrapAsync(async (req, res) => {
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-
-    listing.reviews.push(newReview);
-
-    await listing.save();
-    await newReview.save();
-
-    res.redirect(`/listings/${listing._id}`);
-})
-);
-
-//Delete review Route
-app.delete("/listings/:id/reviews/:reviewId", 
-    wrapAsync(async (req, res) => {
-    let { id, reviewId } = req.params;
-    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-
-    res.redirect(`/listings/${id}`);
-}));
-
+app.use("/listings/:id/reviews", reviewsRoutes)
 
 
 app.get("/err", (req, res) => {
