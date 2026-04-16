@@ -11,6 +11,8 @@ const { listingSchema } = require("./schema.js")
 const Review = require("./model/review.js")
 const { reviewSchema } = require("./schema.js")
 
+const listingsRoutes = require("./routes/listings.js")
+
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust"
@@ -38,14 +40,6 @@ app.get("/",(req,res)=>{
     res.send("hii i am root")
 })
 
-const validateListing = (req, res, next) => {
-    const { error } = listingSchema.validate(req.body);
-    if (error) {
-        throw new ExpressError("Invalid listing data", 400);
-    }else {
-    next();
-    }
-};
 
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
@@ -56,82 +50,7 @@ const validateReview = (req, res, next) => {
     }
 };
 
-
-
-//index Route
-app.get("/listings", async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index", { listings: allListings });
-});
-
-
-
-//new routee of get 
-app.get("/listings/new",(req,res)=>{
-    res.render("listings/new.ejs")
-})
-
-
-//show route
-app.get("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  const listing = await Listing.findById(id).populate("reviews"); // if you want reviews populated
-  res.render("listings/show.ejs", { listing });
-});
-
-
-
-
-//create route
-app.post("/listings", 
-    validateListing, 
-    wrapAsync(async (req, res, next) => {
-        const newListing = new Listing(req.body.listing);
-        await newListing.save();
-        res.redirect("/listings");
-    })
-);
-
-
-//edit route
-    app.get("/listings/:id/edit",wrapAsync(async(req,res)=>{
-    let{id} = req.params
-    const listing = await Listing.findById(id)
-    res.render("listings/edit.ejs",{listing})
-})
-);
-
-
-//update route
-app.put("/listings/:id", wrapAsync (async(req, res) => {
-    let { id } = req.params;
-    let data = req.body.listing;
-
-    data.price = Number(data.price) || 0;
-
-    const listing = await Listing.findByIdAndUpdate(id, data, { new: true });
-    res.redirect(`/listings/${listing._id}`);
-})
-);
-
-//delete route
-app.delete("/listings/:id",wrapAsync(async(req,res)=>{
-    let {id} = req.params;
-    let deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
-    res.redirect("/listings")
-}))
-
-const adminpage =wrapAsync((req,res,next)=>{
-    if(req.query.token === "12345"){
-        next();
-    }else{
-        throw new ExpressError("access denied", 403);
-    }
-})
-app.get("/secret",adminpage,(req,res)=>{
-    res.send("admin page will be here")
-})
+app.use("/listings", listingsRoutes)
 
 //Reviews
 //Post Route
