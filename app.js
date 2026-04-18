@@ -5,6 +5,7 @@ const path=require("path")
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
 const ExpressError = require("./utils/ExpressError.js")
+const flash = require("connect-flash")
 
 const listingsRoutes = require("./routes/listings.js")
 const reviewsRoutes = require("./routes/review.js")
@@ -32,10 +33,29 @@ app.use(methodOverride("_method"))
 app.engine("ejs", ejsMate)
 app.use(express.static(path.join(__dirname,"public")))
 
+const sessionOptions = {
+    secret: "mysupersecret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+
 app.get("/",(req,res)=>{
     res.send("hii i am root")
 })
 
+app.use(flash())
+app.use(require("express-session")(sessionOptions))
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
 
 
 app.use("/listings", listingsRoutes)
