@@ -6,10 +6,15 @@ const session = require('express-session');
 
 app.use(session({
     secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
 }));
 
+
+
 app.get('/test', (req, res) => {
-    res.send('Welcome to the test page!');
+    req.session.count= (req.session.count || 0) + 1;
+    res.send(`you sent a request ${req.session.count} times`);
 });
 
 app.listen(3000, () => {
