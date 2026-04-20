@@ -12,6 +12,7 @@ const User = require("./model/user.js")
 
 const listingsRoutes = require("./routes/listings.js")
 const reviewsRoutes = require("./routes/review.js")
+const userRoutes = require("./routes/user.js")
 
 
 
@@ -79,6 +80,7 @@ app.get("/demouser", async (req, res) => {
 
 app.use("/listings", listingsRoutes)
 app.use("/listings/:id/reviews", reviewsRoutes)
+app.use("/", userRoutes)
 
 
 app.get("/err", (req, res) => {
