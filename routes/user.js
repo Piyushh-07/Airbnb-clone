@@ -1,24 +1,47 @@
 const express = require('express');
 const router = express.Router();
-const User = require("../model/user.js")
+const User = require("../model/user.js");
+const wrapAsync = require('../utils/wrapAsync.js');
+const passport = require("passport");
 
-router.get("/signup",(req,res)=>{
-    res.render("users/signup")
-})
+router.get("/signup", (req, res) => {
+    res.render("users/signup");
+});
 
-router.post("/signup", async(req,res)=>{
-    try{
-        const {username,email,password} = req.body  
-
-        const newUser = new User({username,email,password});
-        const registeredUser = await User.register(newUser,password);
-        console.log(registeredUser);
-        req.flash("success","Welcome to the Wanderlust!")
-        res.redirect("/listings")
+router.post("/signup", wrapAsync(async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+        const newUser = new User({ username, email });
+        const registeredUser = await User.register(newUser, password);
+        req.flash("success", "Welcome to Wanderlust!");
+        res.redirect("/listings");
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Error occurred while signing up");
+        req.flash("error", error.message);
+        res.redirect("/signup");
     }
+}));
+
+router.get("/login", (req, res) => {
+    res.render("users/login");
+});
+
+router.post("/login",
+    passport.authenticate("local", {
+        failureRedirect: "/login",
+        failureFlash: true
+    }),
+    (req, res) => {
+        req.flash("success", "Welcome back!");
+        res.redirect("/listings");
+    }
+);
+
+router.get("/logout", (req, res, next) => {
+    req.logout(err => {
+        if (err) return next(err);
+        req.flash("success", "Logged out successfully!");
+        res.redirect("/listings");
+    });
 });
 
 module.exports = router;
