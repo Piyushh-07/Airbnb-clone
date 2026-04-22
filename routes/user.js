@@ -30,7 +30,7 @@ router.post("/login",
         failureRedirect: "/login",
         failureFlash: true
     }),
-    (req, res) => {
+    async(req, res) => {
         req.flash("success", "Welcome back!");
         res.redirect("/listings");
     }
