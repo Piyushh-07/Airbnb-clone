@@ -27,5 +27,13 @@
         </li>
       </ul>
     </div>
+      <div class="navbar-nav ms-auto">
+        <% if(!currentUser) {%>
+          <a class="nav-link" href="/signup">Sign Up</a>
+          <a class="nav-link" href="/login">Login</a>
+          <% } %><% if(currentUser) {%>
+          <a class="nav-link" href="/logout">Logout</a>
+           <% } %>
+        </div>
   </div>
 </nav>
