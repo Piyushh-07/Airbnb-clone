@@ -22,6 +22,7 @@
           </p>
 
 
+          <% if(currentUser && listing.owner._id.equals(currentUser._id)) {%>
           <div class="d-flex gap-2 mb-3">
             <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">
               Edit Listing
@@ -30,10 +31,12 @@
               <button class="btn btn-danger">Delete Listing</button>
             </form>
           </div>
+          <% } %>
           
 
           <hr>
 
+          <% if(currentUser) {%>
           <div class="mb-3">
             <h4>Leave a Review</h4>
             <form 
@@ -78,6 +81,7 @@
               <button class="btn btn-primary mt-2">Submit Review</button>
               </form> 
               <hr/>
+              <% } %>
               <p><strong>All Reviews</strong></p>
                 <div class="reviews-grid">
                 <% for(review of listing.reviews) {%>
