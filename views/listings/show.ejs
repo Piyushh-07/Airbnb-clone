@@ -21,7 +21,7 @@
             <small class="text-muted"><%= listing.location %>, <%= listing.country %></small>
           </p>
 
-          <% if(currentUser && currentUser._id.equals(listing.owner._id)) { %>
+
           <div class="d-flex gap-2 mb-3">
             <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">
               Edit Listing
@@ -30,7 +30,7 @@
               <button class="btn btn-danger">Delete Listing</button>
             </form>
           </div>
-          <% } %>
+          
 
           <hr>
 

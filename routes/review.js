@@ -3,18 +3,11 @@ const router = express.Router({ mergeParams: true });
 const wrapAsync = require("../utils/wrapAsync.js")
 const ExpressError = require("../utils/ExpressError.js")
 const Review = require("../model/review.js")
-const { reviewSchema } = require("../schema.js")
 const Listing = require("../model/listings.js")
+const { validateReview } = require("../middleware.js")
 
 
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        throw new ExpressError("Invalid review data", 400);
-    } else {
-        next();
-    }
-};
+
 
 
 //Reviews
