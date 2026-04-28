@@ -86,6 +86,7 @@
                 <div class="reviews-grid">
                 <% for(review of listing.reviews) {%>
                       <div class="review-card">
+                          <p class="review-author">@<strong><%= review.author.username %></strong></p>
                           <p class="review-comment"><%= review.comment %></p>
                           <p class="review-rating"><strong>Rating: </strong><%= review.rating %></p>
                                                
