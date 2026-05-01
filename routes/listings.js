@@ -22,8 +22,6 @@ router.get("/new",isLoggedIn, listingController.renderNewForm);
 router.get("/:id",listingController.showListing );
 
 
-
-
 //create route
 router.post("/", 
     isLoggedIn,
@@ -44,29 +42,14 @@ router.put("/:id",
     isLoggedIn,
     isOwner,
     validateListing,
-    wrapAsync (async(req, res) => {
-    let { id } = req.params;
-    let data = req.body.listing;
+    wrapAsync (listingController.updateListing));
 
-    data.price = Number(data.price) || 0;
-
-    const listing = await Listing.findByIdAndUpdate(id, data, { new: true });
-    req.flash("success", "Successfully updated the listing!");
-    res.redirect(`/listings/${listing._id}`);
-})
-);
 
 //delete route
 router.delete("/:id",
     isLoggedIn,
     isOwner,
-    wrapAsync(async(req,res)=>{
-    let {id} = req.params;
-    let deletedListing = await Listing.findByIdAndDelete(id);
-    req.flash("success", "Successfully deleted the listing!");
-    console.log(deletedListing);
-    res.redirect("/listings")
-}))
+    wrapAsync(listingController.deleteListing));
 
 // const adminpage =wrapAsync((req,res,next)=>{
 //     if(req.query.token === "12345"){

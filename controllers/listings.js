@@ -48,3 +48,23 @@ module.exports.renderEditForm = async(req,res)=>{
     }
     res.render("listings/edit.ejs",{listing})
 };
+
+
+module.exports.updateListing = async(req, res) => {
+    let { id } = req.params;
+    let data = req.body.listing;
+
+    data.price = Number(data.price) || 0;
+
+    const listing = await Listing.findByIdAndUpdate(id, data, { new: true });
+    req.flash("success", "Successfully updated the listing!");
+    res.redirect(`/listings/${listing._id}`);
+};
+
+module.exports.deleteListing = async(req,res)=>{
+    let {id} = req.params;
+    let deletedListing = await Listing.findByIdAndDelete(id);
+    req.flash("success", "Successfully deleted the listing!");
+    console.log(deletedListing);
+    res.redirect("/listings")
+};
