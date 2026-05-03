@@ -9,14 +9,15 @@ const userController = require("../controllers/users.js");
 const user = require('../model/user.js');
 
 
+router.route("/signup")
+.get(userController.renderSignupForm)
+.post(wrapAsync(userController.signup));
 
-router.get("/signup", userController.renderSignupForm);
 
-router.post("/signup", wrapAsync(userController.signup));
 
-router.get("/login", userController.renderLoginForm); 
-
-router.post("/login",
+router.route("/login")
+.get(userController.renderLoginForm)
+.post(
     saveRedirectUrl,
     passport.authenticate("local", {
         failureRedirect: "/login",
@@ -25,8 +26,11 @@ router.post("/login",
     userController.login
 );
 
-router.get("/logout", userController.logout);
 
-router.get("/logout", userController.renderlogout);
+router.route("/logout")
+.get(userController.logout)
+.get(userController.renderlogout);
+
+
 
 module.exports = router;
