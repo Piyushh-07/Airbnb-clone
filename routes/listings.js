@@ -8,9 +8,13 @@ const listingController = require("../controllers/listings.js")
 
 
 
-
-//index Route
-router.get("/",wrapAsync(listingController.index));
+router.route("/")
+.get(wrapAsync(listingController.index))
+.post(
+    isLoggedIn,
+    validateListing, 
+    wrapAsync(listingController.createListing)
+);
 
 
 
@@ -18,16 +22,27 @@ router.get("/",wrapAsync(listingController.index));
 router.get("/new",isLoggedIn, listingController.renderNewForm);
 
 
-//show route
-router.get("/:id",listingController.showListing );
 
-
-//create route
-router.post("/", 
+router.route("/:id")
+.post(
     isLoggedIn,
     validateListing, 
     wrapAsync(listingController.createListing)
+)
+.delete(
+    isLoggedIn,
+    isOwner,
+    wrapAsync(listingController.deleteListing)
+)
+.get(listingController.showListing )
+.put(
+    isLoggedIn,
+    isOwner,
+    validateListing, 
+    wrapAsync(listingController.updateListing)
 );
+
+
 
 
 //edit route
@@ -37,19 +52,8 @@ router.post("/",
         wrapAsync(listingController.renderEditForm));
 
 
-//update route
-router.put("/:id",
-    isLoggedIn,
-    isOwner,
-    validateListing,
-    wrapAsync (listingController.updateListing));
 
 
-//delete route
-router.delete("/:id",
-    isLoggedIn,
-    isOwner,
-    wrapAsync(listingController.deleteListing));
 
 // const adminpage =wrapAsync((req,res,next)=>{
 //     if(req.query.token === "12345"){
