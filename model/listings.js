@@ -14,7 +14,7 @@ const listingSchema = new Schema({
         trim: true
     },
     image: {
-        URL: String,
+        url: String,
         filename: String
     },
     price: {

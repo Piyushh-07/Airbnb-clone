@@ -18,7 +18,7 @@ const initDB = async()=>{
     await Listing.deleteMany({});
     initData.data = initData.data.map((obj)=>({
         ...obj, 
-        image: obj.image.url,
+        image: { url: obj.image.url, filename: obj.image.filename },
         owner:"69ea646ee9a973fddfc47af4" 
     }));
     await Listing.insertMany(initData.data);
