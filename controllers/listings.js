@@ -53,16 +53,25 @@ module.exports.renderEditForm = async(req,res)=>{
 };
 
 
-module.exports.updateListing = async(req, res) => {
+module.exports.updateListing = async (req, res) => {
     let { id } = req.params;
-    let data = req.body.listing;
 
-    data.price = Number(data.price) || 0;
-
-    const listing = await Listing.findByIdAndUpdate(id, data, { new: true });
+    // ✅ Pass filter as { _id: id }
+    let listing = await Listing.findOneAndUpdate(
+        { _id: id },                // filter object
+        { ...req.body.listing },    // update data
+        { new: true }               // return updated doc
+    );
+    if (typeof req.file !== "undefined") {
+        let url = req.file.path;
+        let filename = req.file.filename;
+        listing.image = { url, filename };
+        await listing.save();
+    }
     req.flash("success", "Successfully updated the listing!");
     res.redirect(`/listings/${listing._id}`);
 };
+
 
 module.exports.deleteListing = async(req,res)=>{
     let {id} = req.params;
