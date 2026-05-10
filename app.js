@@ -51,9 +51,9 @@ const sessionOptions = {
     }
 }
 
-app.get("/",(req,res)=>{
-    res.send("hii i am root")
-})
+// app.get("/",(req,res)=>{
+//     res.send("hii i am root")
+// })
 
 app.use(flash())
 app.use(require("express-session")(sessionOptions))
