@@ -1,4 +1,93 @@
-<nav class="navbar navbar-expand-md bg-body-light">
+<style>
+  .navbar {
+    background-color: #ffffff !important;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #ebebeb;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .navbar-brand {
+    font-size: 1.75rem;
+    color: #ff5a5f !important;
+    transition: transform 0.2s ease;
+  }
+  .navbar-brand:hover {
+    transform: scale(1.08);
+  }
+
+  .nav-link {
+    font-weight: 500;
+    padding: 0.5rem 0.9rem !important;
+    border-radius: 22px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .nav-link:hover {
+    background-color: #f7f7f7;
+  }
+
+  /* Search form */
+  .search-form {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dddddd;
+    border-radius: 30px;
+    padding: 4px 4px 4px 16px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease;
+    background: #fff;
+  }
+  .search-form:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+  .search-form .form-control {
+    border: none;
+    box-shadow: none;
+    max-width: 200px;
+    height: 34px;
+    font-size: 0.9rem;
+    padding: 0 8px;
+  }
+  .search-form .form-control:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .btn-search {
+    background-color: #ff5a5f;
+    color: #fff;
+    padding: 0.45rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+  }
+  .btn-search:hover {
+    background-color: #e0484d;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  /* Right-side links */
+  .nav-right .nav-link {
+    color: #222 !important;
+    font-size: 0.95rem;
+  }
+  .nav-right .nav-link b {
+    font-weight: 600;
+  }
+  .roomify-btn {
+    font-weight: 600 !important;
+  }
+  .roomify-btn:hover {
+    color: #ff5a5f !important;
+  }
+</style>
+
+<nav class="navbar navbar-expand-md">
   <div class="container-fluid">
     <a class="navbar-brand" href="/listings">
       <i class="fa-solid fa-compass"></i>
@@ -14,27 +103,36 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="/listings">Explore</a>
         </li>
-        <li class="nav-item">
-
-        </li>
       </ul>
-    </div>
-      <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new">Roomify Your home</a>
-        <% if(!currentUser) {%>
+
+      <form class="search-form mx-auto" role="search">
+        <input
+          class="form-control"
+          type="search"
+          placeholder="Search listings..."
+          aria-label="Search"
+        />
+        <button class="btn-search" type="submit">
+          Search <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <div class="navbar-nav ms-auto nav-right align-items-md-center">
+        <a class="nav-link roomify-btn" href="/listings/new">Roomify Your Home</a>
+        <% if(!currentUser) { %>
           <a class="nav-link" href="/signup"><b>Sign Up</b></a>
           <a class="nav-link" href="/login"><b>Login</b></a>
-          <% } %><% if(currentUser) {%>
+        <% } %>
+        <% if(currentUser) { %>
           <a class="nav-link" href="/logout"><b>Logout</b></a>
-           <% } %>
-        </div>
+        <% } %>
+      </div>
+    </div>
   </div>
 </nav>

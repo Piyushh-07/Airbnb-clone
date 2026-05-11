@@ -1,90 +1,72 @@
 <% layout("layouts/boilerplate") %>
 <body>
-  <!-- <h3>All Listings</h3> -->
-<style>
-.filters {
-  display: flex;
-  gap: 40px;
-  margin-top: 10px;
-  font-size: small;
-  text-align: center;
-}
-</style>
-
-
 <div class="filters">
- <div class="filter">
-  <div><i class="fa-solid fa-fire"></i></div>
-  <p>Trending</p>
- </div>
- <div class="filter">
-  <div><i class="fa-solid fa-bed"></i></div>
-  <p>Rooms</p>
- </div>
+  <div class="filter active">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </div>
   <div class="filter">
-  <div><i class="fa-solid fa-mountain-city"></i></div>
-  <p>Iconic cities</p>
- </div>
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Rooms</p>
+  </div>
   <div class="filter">
-  <div><i class="fa-solid fa-mountain"></i></div>
-  <p>Mountain</p>
- </div>
+    <div><i class="fa-solid fa-mountain-city"></i></div>
+    <p>Iconic cities</p>
+  </div>
   <div class="filter">
-  <div><i class="fa-brands fa-fort-awesome"></i></div>
-  <p>Castles</p>
- </div>
+    <div><i class="fa-solid fa-mountain"></i></div>
+    <p>Mountain</p>
+  </div>
   <div class="filter">
-  <div><i class="fa-solid fa-campground"></i></div>
-  <p>Campground</p>
- </div>
- <div class="filter">
-  <div><i class="fa-solid fa-tractor"></i></div>
-  <p>farms</p>
- </div>
- <div class="filter">
-  <div><i class="fa-solid fa-snowflake"></i></div>
-  <p>Arctic</p>
- </div>
-   <div class="filter">
+    <div><i class="fa-brands fa-fort-awesome"></i></div>
+    <p>Castles</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-campground"></i></div>
+    <p>Campground</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-tractor"></i></div>
+    <p>Farms</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-snowflake"></i></div>
+    <p>Arctic</p>
+  </div>
+  <div class="filter">
     <div><i class="fa-solid fa-umbrella-beach"></i></div>
     <p>Beaches</p>
   </div>
- <div class="filter">
-  <div><i class="fa-solid fa-water-ladder"></i></div>
-  <p>Amazing Pools</p>
- </div>
- <div class="filter">
-  <div><i class="fa-solid fa-tree"></i></div>
-  <p>Forest</p>
- </div>
-
-</div>
-<hr>
-
-
-  <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
-    <% for (let listing of listings) { %>
-      <div class="col">
-        <a
-          href="/listings/<%= listing._id %>"
-          style="text-decoration: none; color: inherit;"
-        >
-          <div class="card" style="width: 18rem;">
-            <img
-              src="<%= listing.image.url %>"
-              class="card-img-top"
-              alt="<%= listing.title %>"
-              style="height: 18rem; object-fit: cover;"
-            />
-            <div class="card-body">
-              <p class="card-text">
-                <b><%= listing.title %></b><br />
-                &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
-              </p>
-            </div>
-          </div>
-        </a>
-      </div>
-    <% } %>
+  <div class="filter">
+    <div><i class="fa-solid fa-water-ladder"></i></div>
+    <p>Amazing Pools</p>
   </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-tree"></i></div>
+    <p>Forest</p>
+  </div>
+</div>
+<hr class="filter-divider" />
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mb-4 listings-row">
+  <% for (let listing of listings) { %>
+    <div class="col">
+      <a href="/listings/<%= listing._id %>" class="listing-link">
+        <div class="card listing-card">
+          <img
+            src="<%= listing.image.url %>"
+            class="card-img-top"
+            alt="<%= listing.title %>"
+          />
+          <div class="card-body">
+            <p class="listing-title"><%= listing.title %></p>
+            <p class="listing-price">
+              <b>&#8377;<%= listing.price.toLocaleString("en-IN") %></b> / night
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  <% } %>
+</div>
 </body>
