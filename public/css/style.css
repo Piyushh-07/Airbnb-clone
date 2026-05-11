@@ -6,6 +6,7 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    
 }
 .container{
     flex: 1;
@@ -64,13 +65,12 @@ footer {
 /*Cards*/
 .card {
   background-color: #fff;
-  border:none !important;
-  
+  border: none !important;
   padding: 20px;
-  margin: 20px;
+  margin: -10px;                /* remove auto margins */
   max-width: 550px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-} 
+}
 .card-review {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125);
